@@ -2,7 +2,8 @@
 package ru.practicum.shareit.item.controller;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.DtoComment;
 import ru.practicum.shareit.item.dto.DtoItem;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/items")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ItemController {
     private final ItemService itemService;
 
@@ -33,11 +34,13 @@ public class ItemController {
     }
 
     @GetMapping
+    @Transactional(readOnly = true)
     public List<DtoItemBooking> getAllItemByOwner(@RequestHeader(name = "X-Sharer-User-Id") Long ownerId) {
         return itemService.getAllItemByOwnerId(ownerId);
     }
 
     @GetMapping("/{itemId}")
+    @Transactional(readOnly = true)
     public DtoItemBooking getItemById(@PathVariable Long itemId) {
         return itemService.getItemById(itemId);
     }
