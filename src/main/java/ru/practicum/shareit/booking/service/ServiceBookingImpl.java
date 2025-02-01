@@ -33,7 +33,7 @@ public class ServiceBookingImpl implements ServiceBooking {
     @Override
     @Transactional
     public BookingDto createBooking(CreateBooking bookingCreate, Long userId) {
-        log.info("Инициализация нового бронирования : {}, инициированного пользователем с id : {}", bookingCreate, userId);
+        log.info("Инициализация нового бронирования: {}, инициированного пользователем с id : {}", bookingCreate, userId);
 
         validateBookingDates(bookingCreate);
 
