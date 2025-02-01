@@ -7,11 +7,12 @@ import ru.practicum.shareit.booking.model.StatusBooking;
 import java.util.List;
 
 public interface ServiceBooking {
-    BookingDto createBooking(CreateBooking createBookingDto, Long userId);
 
-    BookingDto approveBooking(Long bookingId, Long userId, Boolean approved);
+    BookingDto createBooking(CreateBooking booking, Long userId);
 
-    BookingDto getBookingById(Long bookingId, Long userId);
+    BookingDto acceptBooking(Long ownerId, Long bookingId, Boolean approved);
+
+    BookingDto getBookingById(Long userId, Long bookingId);
 
     List<BookingDto> getBookings(Long userId, StatusBooking status);
 

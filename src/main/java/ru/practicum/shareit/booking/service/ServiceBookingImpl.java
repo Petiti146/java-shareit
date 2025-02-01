@@ -33,7 +33,7 @@ public class ServiceBookingImpl implements ServiceBooking {
     @Override
     @Transactional
     public BookingDto createBooking(CreateBooking bookingCreate, Long userId) {
-        log.info("Инициализация нового бронирования: {}, инициированного пользователем с id : {}", bookingCreate, userId);
+        log.info("Инициализация нового бронирования: {}, инициированного пользователем с id: {}", bookingCreate, userId);
 
         validateBookingDates(bookingCreate);
 
@@ -48,7 +48,7 @@ public class ServiceBookingImpl implements ServiceBooking {
 
     @Override
     @Transactional
-    public BookingDto approveBooking(Long ownerId, Long bookingId, Boolean approved) {
+    public BookingDto acceptBooking(Long ownerId, Long bookingId, Boolean approved) {
         log.info("Обработка подтверждения бронирования с ID: {}", bookingId);
         Booking booking = findById(bookingId);
         validateOwnerAccess(ownerId, booking);
