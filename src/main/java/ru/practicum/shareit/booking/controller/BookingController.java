@@ -12,42 +12,39 @@ import ru.practicum.shareit.booking.service.ServiceBooking;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/bookings")
+@RequiredArgsConstructor
 public class BookingController {
-
     private final ServiceBooking bookingService;
 
     @PostMapping
-    public BookingDto createBooking(@RequestHeader(name = "X-Sharer-User-Id") Long userId,
-                                    @Valid @RequestBody CreateBooking booking) {
-        return bookingService.createBooking(booking, userId);
+    public BookingDto createBooking(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                    @Valid @RequestBody CreateBooking createBookingDto) {
+        return bookingService.createBooking(createBookingDto, userId);
     }
 
     @PatchMapping("/{bookingId}")
-    public BookingDto approveBooking(@RequestHeader(name = "X-Sharer-User-Id") Long userId,
-                                     @PathVariable Long bookingId, @RequestParam Boolean approved) {
-        return bookingService.acceptBooking(userId, bookingId, approved);
+    public BookingDto approveBooking(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                     @PathVariable Long bookingId,
+                                     @RequestParam Boolean approved) {
+        return bookingService.approveBooking(bookingId, userId, approved);
     }
 
     @GetMapping("/{bookingId}")
-    @Transactional(readOnly = true)
-    public BookingDto getBookingById(@RequestHeader(name = "X-Sharer-User-Id") Long userId,
+    public BookingDto getBookingById(@RequestHeader("X-Sharer-User-Id") Long userId,
                                      @PathVariable Long bookingId) {
-        return bookingService.getBookingById(userId, bookingId);
+        return bookingService.getBookingById(bookingId, userId);
     }
 
     @GetMapping
-    @Transactional(readOnly = true)
-    public List<BookingDto> getBookings(@RequestHeader(name = "X-Sharer-User-Id") Long userId,
-                                        @RequestParam(required = false) StatusBooking status) {
-        return bookingService.getBookings(userId, status);
+    public List<BookingDto> getBookings(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                        @RequestParam(defaultValue = "ALL") StatusBooking state) {
+        return bookingService.getBookings(userId, state);
     }
 
     @GetMapping("/owner")
-    @Transactional(readOnly = true)
-    public List<BookingDto> getBookingByOwnerId(@RequestHeader(name = "X-Sharer-User-Id") Long ownerId,
-                                                @RequestParam(required = false) StatusBooking status) {
-        return bookingService.getBookingsByOwnerId(ownerId, status);
+    public List<BookingDto> getBookingsByOwner(@RequestHeader("X-Sharer-User-Id") Long ownerId,
+                                               @RequestParam(defaultValue = "ALL") StatusBooking state) {
+        return bookingService.getBookingsByOwnerId(ownerId, state);
     }
 }
